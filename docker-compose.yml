@@ -41,9 +41,9 @@ services:
     restart: unless-stopped
     volumes:
       # to be modified depending on your needs
-      - /path/to/your/grafana/data:/var/lib/grafana
-      - /path/to/your/grafana/grafana.ini:/etc/grafana/grafana.ini
-      - /path/to/your/grafana/provisioning:/etc/grafana/provisioning
+      - /docker_data/grafana/data:/var/lib/grafana
+      - /docker_data/grafana/grafana.ini:/etc/grafana/grafana.ini
+      - /docker_data/grafana/provisioning:/etc/grafana/provisioning
 
   node-exporter:
     container_name: monitoring-node-exporter
@@ -69,12 +69,11 @@ services:
     restart: unless-stopped
     volumes:
       # to be modified depending on your needs
-      - /path/to/your/prometheus/data:/prometheus
-      - /path/to/your/prometheus/config:/etc/prometheus/
+      - /docker_data/prometheus/data:/prometheus
+      - /docker_data/prometheus/config:/etc/prometheus/
     links:
       - cadvisor:cadvisor
       - node-exporter:node-exporter
 
 networks:
   rpimonitor_default:
-    external: true
