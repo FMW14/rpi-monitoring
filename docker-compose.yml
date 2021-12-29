@@ -49,6 +49,8 @@ services:
     hostname: rpi-exporter
     image: prom/node-exporter:latest
     restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   
 
   prometheus:
     command:
