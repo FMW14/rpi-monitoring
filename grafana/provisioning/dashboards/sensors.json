@@ -18,7 +18,7 @@
       }
     ]
   },
-  "description": "Dashboard with details of the container and host OS metrics for Raspberry Pi by Oijkn.",
+  "description": "Data collected from the various sensors on the raspberry pi",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "gnetId": 10566,
