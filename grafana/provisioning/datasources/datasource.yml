@@ -18,7 +18,7 @@ datasources:
     # <string> url
     url: http://monitoring-prometheus:9090
     # <string> database user, if used
-    user:
+    #user:
     # <string> database name, if used
     #database:
     # <bool> enable/disable basic auth
