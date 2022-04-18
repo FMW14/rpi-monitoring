@@ -7,6 +7,11 @@ volumes:
 services:
   cadvisor:
     container_name: monitoring-cadvisor
+    command:
+      - '--housekeeping_interval=10s'
+      - '--docker_only=true'
+#      - '--disable_metrics=disk,network,tcp,udp,percpu,sched,process'
+      - '--disable_metrics=network,percpu,sched,process'
     devices:
       - /dev/kmsg
     expose:
