@@ -1,4 +1,9 @@
 version: "3"
+
+volumes:
+  prometheus_data: {}
+  grafana_data: {}
+
 services:
   cadvisor:
     container_name: monitoring-cadvisor
@@ -36,9 +41,9 @@ services:
       - 3000:3000
     restart: unless-stopped
     volumes:
-      - ./grafana/data:/var/lib/grafana
-      - ./grafana/:/etc/grafana/
-      - ./grafana/provisioning:/etc/grafana/provisioning
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
 
   node-exporter:
     container_name: monitoring-node-exporter
@@ -64,8 +69,8 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"   
     volumes:
-      - ./prometheus/data:/prometheus
-      - ./prometheus/config:/etc/prometheus/
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
     links:
       - cadvisor:cadvisor
       - node-exporter:node-exporter
