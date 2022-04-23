@@ -17,7 +17,7 @@ services:
       - /dev/kmsg
     expose:
       - 8080
-    hostname: rpi-cadvisor
+#    hostname: rpi-cadvisor
     image: zcube/cadvisor:latest
     ipc: shareable
     privileged: true
@@ -41,7 +41,7 @@ services:
       - GF_PATHS_PLUGINS=/var/lib/grafana/plugins
       - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
     user: 1000:1000
-    hostname: rpi-grafana
+#    hostname: rpi-grafana
     image: grafana/grafana:latest
     ports:
       - 3000:3000
@@ -57,7 +57,7 @@ services:
       - 9100:9100
     expose:
       - 9100
-    hostname: rpi-exporter
+#    hostname: rpi-exporter
     image: prom/node-exporter:latest
     restart: unless-stopped
 
@@ -70,11 +70,11 @@ services:
       - 9090:9090
     expose:
       - 9090
-    hostname: rpi-prom
+#    hostname: rpi-prom
     image: prom/prometheus:latest
     restart: unless-stopped
-    extra_hosts:
-      - "host.docker.internal:host-gateway"   
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
     volumes:
       - ./prometheus:/etc/prometheus
       - prometheus_data:/prometheus

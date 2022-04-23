@@ -3,11 +3,13 @@ scrape_configs:
     scrape_interval: 10s
     static_configs:
       - targets: ['localhost:9090']
+#      - targets: ['monitoring-prometheus:9090']
 
   - job_name: 'node-exporter-local'
     scrape_interval: 10s
     static_configs:
       - targets: ['node-exporter:9100']
+#      - targets: ['monitoring-node-exporter:9100']
 
   - job_name: 'cadvisor'
     scrape_interval: 10s
