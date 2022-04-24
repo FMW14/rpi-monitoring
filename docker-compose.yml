@@ -32,7 +32,7 @@ services:
 #    expose:
 #      - 9100
     hostname: rpi-exporter
-    network_mode: host
+#    network_mode: host
     image: prom/node-exporter:latest
     restart: unless-stopped
 
@@ -66,14 +66,14 @@ services:
     volumes:
       - ./blackbox/blackbox_config.yml:/etc/blackbox_exporter/config.yml
 
-  rpi_cpu_stats:
-    image: thundermagic/rpi_cpu_stats:latest
-    container_name: rpi_cpu_stats
-    restart: unless-stopped
-    ports:
-      - "9669:9669"
-    environment:
-      - PUID=1001
-      - PGID=1001
-    volumes:
-      - /sys:/sys
+#  rpi_cpu_stats:
+#    image: thundermagic/rpi_cpu_stats:latest
+#    container_name: rpi_cpu_stats
+#    restart: unless-stopped
+#    ports:
+#      - "9669:9669"
+#    environment:
+#      - PUID=1001
+#      - PGID=1001
+#    volumes:
+#      - /sys:/sys
