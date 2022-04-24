@@ -28,6 +28,8 @@ services:
       - grafana_data:/var/lib/grafana
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - monitoring
 
   node-exporter:
     container_name: monitoring-node-exporter
@@ -54,8 +56,8 @@ services:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
     container_name: monitoring-prometheus
-#    ports:
-#      - 9090:9090
+    ports:
+      - 9090:9090
     expose:
       - 9090
     hostname: rpi-prom
