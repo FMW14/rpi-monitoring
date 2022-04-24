@@ -27,10 +27,10 @@ services:
 
   node-exporter:
     container_name: monitoring-node-exporter
-    ports:
-      - 9100:9100
-    expose:
-      - 9100
+#    ports:
+#      - 9100:9100
+#    expose:
+#      - 9100
     hostname: rpi-exporter
     network_mode: host
     image: prom/node-exporter:latest
