@@ -17,9 +17,9 @@ scrape_configs:
     static_configs:
       - targets: ['cadvisor:8080']
 
-  - job_name: 'pi_cpu_stats'
-    static_configs:
-      - targets: ['rpi_cpu_stats:9669']
+#  - job_name: 'pi_cpu_stats'
+#    static_configs:
+#      - targets: ['rpi_cpu_stats:9669']
 
   - job_name: 'blackbox_ping'
     metrics_path: /probe
