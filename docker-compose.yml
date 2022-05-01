@@ -1,8 +1,8 @@
 version: '3.8'
 
-networks:
-  monitoring:
-    driver: bridge
+#networks:
+#  monitoring:
+#    driver: bridge
 
 volumes:
   prometheus_data: {}
@@ -28,8 +28,8 @@ services:
       - grafana_data:/var/lib/grafana
       - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
       - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
-    networks:
-      - monitoring
+#    networks:
+#      - monitoring
 
   node-exporter:
     container_name: monitoring-node-exporter
@@ -52,17 +52,17 @@ services:
 #      - monitoring
 
   prometheus:
+    container_name: monitoring-prometheus
+    restart: unless-stopped
+    image: prom/prometheus:latest
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
-    container_name: monitoring-prometheus
     ports:
       - 9090:9090
     expose:
       - 9090
     hostname: rpi-prom
-    image: prom/prometheus:latest
-    restart: unless-stopped
     extra_hosts:
 #      - "host.docker.internal:host-gateway"
       - "host.docker.internal:172.17.0.1"
@@ -70,13 +70,14 @@ services:
       - ./prometheus:/etc/prometheus
       - prometheus_data:/prometheus
     links:
+      - cadvisor:cadvisor
       - node-exporter:node-exporter
-    networks:
-      - monitoring
+#    networks:
+#      - monitoring
 
   blackbox_exporter:
     image: prom/blackbox-exporter:master
-    container_name: blackbox_exporter
+    container_name: monitoring-blackbox_exporter
     restart: unless-stopped
     #    extra_hosts: *pi
 #    ports:
@@ -85,8 +86,34 @@ services:
       - 9115
     volumes:
       - ./blackbox/blackbox_config.yml:/etc/blackbox_exporter/config.yml
-    networks:
-      - monitoring
+#    networks:
+#      - monitoring
+
+  cadvisor:
+    container_name: monitoring-cadvisor
+    image: zcube/cadvisor:latest
+    restart: unless-stopped
+    command:
+      - '--housekeeping_interval=15s'
+      - '--docker_only=true'
+      #      - '--disable_metrics=disk,network,tcp,udp,percpu,sched,process'
+      #      - '--disable_metrics=network,percpu,sched,process'
+      - '--disable_metrics=accelerator,cpu_topology,disk,memory_numa,tcp,udp,percpu,sched,process,hugetlb,referenced_memory,resctrl,cpuset,advtcp,memory_numa'
+    devices:
+      - /dev/kmsg
+    expose:
+      - 8080
+    #    hostname: rpi-cadvisor
+    ipc: shareable
+    privileged: true
+    security_opt:
+      - label=disable
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
 
 #  rpi_cpu_stats:
 #    image: thundermagic/rpi_cpu_stats:latest
