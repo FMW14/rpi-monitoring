@@ -64,7 +64,8 @@ services:
     image: prom/prometheus:latest
     restart: unless-stopped
     extra_hosts:
-      - "host.docker.internal:host-gateway"   
+#      - "host.docker.internal:host-gateway"
+      - "host.docker.internal:172.17.0.1"
     volumes:
       - ./prometheus:/etc/prometheus
       - prometheus_data:/prometheus
@@ -73,19 +74,19 @@ services:
     networks:
       - monitoring
 
-#  blackbox_exporter:
-#    image: prom/blackbox-exporter:master
-#    container_name: blackbox_exporter
-#    restart: unless-stopped
-#    #    extra_hosts: *pi
-##    ports:
-##      - "9115:9115"
-#    expose:
-#      - 9115
-#    volumes:
-#      - ./blackbox/blackbox_config.yml:/etc/blackbox_exporter/config.yml
-#    networks:
-#      - monitoring
+  blackbox_exporter:
+    image: prom/blackbox-exporter:master
+    container_name: blackbox_exporter
+    restart: unless-stopped
+    #    extra_hosts: *pi
+#    ports:
+#      - "9115:9115"
+    expose:
+      - 9115
+    volumes:
+      - ./blackbox/blackbox_config.yml:/etc/blackbox_exporter/config.yml
+    networks:
+      - monitoring
 
 #  rpi_cpu_stats:
 #    image: thundermagic/rpi_cpu_stats:latest
