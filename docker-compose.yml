@@ -70,7 +70,7 @@ services:
       - ./prometheus:/etc/prometheus
       - prometheus_data:/prometheus
     links:
-      - cadvisor:cadvisor
+#      - cadvisor:cadvisor
       - node-exporter:node-exporter
 #    networks:
 #      - monitoring
